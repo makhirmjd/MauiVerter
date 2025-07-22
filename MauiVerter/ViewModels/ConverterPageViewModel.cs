@@ -7,7 +7,7 @@ namespace MauiVerter.ViewModels;
 
 public partial class ConverterPageViewModel : ObservableObject
 {
-    public string QuantityName { get; set; } = "Length";
+    public string QuantityName { get; set; } = default!;
 
     public ObservableCollection<string> FromMeasures { get; set; } = [];
 
@@ -15,28 +15,41 @@ public partial class ConverterPageViewModel : ObservableObject
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(ToValue))]
-    private string currentFromMeasure  = "Meter";
+    private string currentFromMeasure;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(ToValue))]
-    private string currentToMeasure  = "Centimeter";
+    private string currentToMeasure;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(ToValue))]
-    private double fromValue = 1;
+    private double fromValue;
 
     public double ToValue => Convert();
 
-    public ConverterPageViewModel()
+    public void SetMeasure(string measure)
     {
+        QuantityName = measure;
         ObservableCollection<string> measures = LoadMeasures();
-        FromMeasures = measures;
-        ToMeasures = measures;
-        Convert();
+        FromMeasures.Clear();
+        ToMeasures.Clear();
+        measures.ToList().ForEach(m =>
+        {
+            FromMeasures.Add(m);
+            ToMeasures.Add(m);
+        });
+        CurrentFromMeasure = FromMeasures.FirstOrDefault() ?? string.Empty;
+        CurrentToMeasure = ToMeasures.Skip(1).FirstOrDefault() ?? string.Empty;
+        FromValue = 1;
     }
 
 
-    public double Convert() => UnitConverter.ConvertByName(FromValue, QuantityName, CurrentFromMeasure, CurrentToMeasure);
+    public double Convert()
+    {
+        if (string.IsNullOrEmpty(CurrentFromMeasure) || string.IsNullOrEmpty(CurrentToMeasure))
+            return 0;
+        return UnitConverter.ConvertByName(FromValue, QuantityName, CurrentFromMeasure, CurrentToMeasure);
+    }
 
     private ObservableCollection<string> LoadMeasures() =>
         new(

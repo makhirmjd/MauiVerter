@@ -17,8 +17,7 @@ namespace MauiVerter
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            //return new Window(new MenuPageView(viewModel));
-            return new Window(new ConverterPageView(converterPageViewModel));
+            return new Window(new NavigationPage(new MenuPageView(viewModel, converterPageViewModel)));
         }
     }
 }
