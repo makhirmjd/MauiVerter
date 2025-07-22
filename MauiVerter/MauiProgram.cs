@@ -28,6 +28,7 @@ namespace MauiVerter
         private static void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<MenuPageViewModel>();
+            services.AddSingleton<ConverterPageViewModel>();
         }
     }
 }
