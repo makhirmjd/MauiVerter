@@ -101,7 +101,6 @@
         <!--#region Mass-->
         <Grid
             Grid.Row="2"
-            Grid.Column="0"
             Padding="15"
             BackgroundColor="{StaticResource AppColor2}"
             RowDefinitions=".7*,.3*">
@@ -173,7 +172,6 @@
         <!--#region Area-->
         <Grid
             Grid.Row="3"
-            Grid.Column="0"
             Padding="15"
             BackgroundColor="{StaticResource AppColor3}"
             RowDefinitions=".7*,.3*">
